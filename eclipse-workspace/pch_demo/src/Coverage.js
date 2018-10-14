@@ -5,7 +5,9 @@ import classnames from 'classnames';
 class Coverage extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      activeTab: '1', 
       coverages : [
         {
           name: "Basic Coverage",
@@ -21,7 +23,14 @@ class Coverage extends Component {
         }
       ]
     };
+  }
 
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
   }
 
   render() {
@@ -29,26 +38,26 @@ class Coverage extends Component {
       return (
         <div>
           <Nav tabs>
-            {this.state.coverages.map(coverage => {
+            {this.state.coverages.map((coverage, index) => {
               return (
                 <NavItem key={coverage.name}>
                   <NavLink
-                    className={classnames({ active: this.state.activeTab === '1' })}
-                    onClick={() => { this.toggle('1'); }}
+                    className={classnames({ active: this.state.activeTab === index })}
+                    onClick={() => { this.toggle(index); }}
                   >
-                    coverage.name
+                    {coverage.name}
                   </NavLink>
                 </NavItem>
               )
             })}
           </Nav>
           <TabContent activeTab={this.state.activeTab}>
-            {this.state.coverages.map(coverage => {
+            {this.state.coverages.map((coverage, index) => {
               return (
-                <TabPane key={coverage.name} tabId="1">
+                <TabPane key={coverage.name} tabId={index}>
                   <Row>
                     <Col sm="12">
-                      <h4>coverage.description</h4>
+                      <h4>{coverage.description}</h4>
                     </Col>
                   </Row>
                 </TabPane>
